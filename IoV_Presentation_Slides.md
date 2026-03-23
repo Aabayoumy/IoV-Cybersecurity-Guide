@@ -46,14 +46,22 @@
 
 ---
 
-## Slide 5: IoV Impact and Scope
+## Slide 5: Course Structure Overview
 **Introduction**
 
-- **Current Market Statistics:** ~400M connected vehicles, ~15M V2X-equipped vehicles, global market $166B (2023), projected $400B (2030)
-- **Cybersecurity Investment:** $7.3B automotive cybersecurity market (2023), projected $22.2B (2030), $200-500 average cybersecurity spend per premium vehicle
-- **Societal Benefits (When Secured):** Up to 80% crash reduction via collision warnings, 15-25% fuel savings via traffic optimization, measurable CO2 reduction, increased accessibility for disabled/elderly
-- **Risks of Insecure IoV:** Mass casualty coordinated attacks, regional infrastructure disruption, mass surveillance of vehicle movements, fleet-wide recalls, national security vulnerabilities
-- **The Stakes:** With hundreds of millions of connected vehicles projected, securing IoV is a critical infrastructure challenge equal to power grids and telecommunications
+This course consists of **7 core modules** covering essential IoV cybersecurity topics:
+
+| Module | Title | Key Topics |
+|--------|-------|------------|
+| **1** | Architecture and Nodes | OBU, RSU, Cloud/Fog/Edge, V2X paradigms |
+| **2** | Characteristics and Challenges | Mobility, latency, scalability, constraints |
+| **3** | Routing Protocols and Secure Routing | VANET, AODV, GPSR, SAODV, ARAN |
+| **4** | Attack Taxonomy | Network attacks, identity attacks, physical attacks |
+| **5** | Authentication and Privacy-Preservation | Pseudonyms, mix-zones, privacy regulations |
+| **6** | Cryptography and Key Management | PKI, ECC, SCMS, key lifecycle |
+| **7** | Intrusion Detection Systems | Signature-based, anomaly-based, ML/AI approaches |
+
+**Additional Topics:** V2X Vulnerabilities, Blockchain for IoV, Adversarial AI, Global Standards
 
 ---
 
@@ -144,8 +152,63 @@
 
 ---
 
-## Slide 14: Threat Actors Targeting IoV
-**Module 3: Threat Landscape**
+## Slide 14: VANET Fundamentals
+**Module 3: Routing Protocols and Secure Routing**
+
+- **VANET Definition:** Vehicular Ad-Hoc Network—subclass of Mobile Ad-Hoc Networks where vehicles act as mobile nodes that join/leave dynamically; self-organizing without central authority; each node can route messages; vehicles move at 30-150 km/h with topology changing every second
+- **Key Characteristics:** Self-organizing (no central authority = trust establishment challenging), decentralized (every node routes = any node can become malicious), high mobility (rapid topology changes), intermittent connectivity (connections last seconds), no fixed infrastructure (pure V2V possible = cannot rely on trusted anchors)
+- **Communication Modes:** Single-hop (direct, 300-1000m, lowest latency ~1-5ms, most reliable), multi-hop (extends range via intermediate forwarding, each hop adds latency, path breaks if any vehicle moves), broadcast (one-to-all for safety messages, no acknowledgment)
+- **Protocol Stack:** Application (safety, traffic, comfort apps), transport (UDP for safety/low-latency, TCP for reliable transfer), network (AODV, DSR, GPSR routing), MAC (IEEE 802.11p or C-V2X), physical (5.9 GHz band)
+- **VANET vs. Traditional Networks:** Traditional = fixed topology, trusted infrastructure, centralized routing, static security; VANET = dynamic topology (changes every second), no central authority, every node routes, trust established on-the-fly
+
+---
+
+## Slide 15: VANET Routing Protocol Types
+**Module 3: Routing Protocols and Secure Routing**
+
+- **Proactive (Table-Driven) Routing:** Maintain routing tables continuously; routes available immediately; high overhead in dynamic VANETs; examples: OLSR, DSDV
+- **Reactive (On-Demand) Routing:** Discover routes only when needed; lower overhead; initial latency for route discovery; examples: AODV, DSR
+- **Position-Based (Geographic) Routing:** Use GPS coordinates for routing decisions; forward to neighbor closest to destination; no routing tables needed; examples: GPSR, GSR, GPCR
+- **Cluster-Based Routing:** Group vehicles into clusters; cluster heads handle inter-cluster routing; reduces overhead in dense networks; examples: CBLR, LORA-CBF
+- **Fundamental Problem:** All routing protocols assume cooperative honest nodes—but in adversarial environments, any node can lie about position, fabricate routes, or silently drop packets
+
+---
+
+## Slide 16: AODV and GPSR Protocols
+**Module 3: Routing Protocols and Secure Routing**
+
+- **AODV (Ad-hoc On-demand Distance Vector):** Discovers routes via RREQ (Route Request) / RREP (Route Reply); source broadcasts RREQ, destination responds with RREP, data flows along discovered path
+- **AODV Vulnerabilities:** No authentication of RREQ/RREP messages; sequence numbers can be forged; hop count can be manipulated; route replies can be spoofed—designed assuming all nodes are cooperative and honest
+- **GPSR (Greedy Perimeter Stateless Routing):** Uses GPS coordinates, forwards to neighbor closest to destination; perimeter mode activates when greedy fails (no neighbor closer to destination)
+- **GPSR Vulnerabilities:** Relies entirely on position information that can be spoofed; attacker claims position closer to destination → attracts all traffic; no verification of claimed location
+- **Protocol Comparison:** AODV vulnerable to sequence number manipulation (route hijacking); DSR vulnerable to route cache poisoning (traffic interception); OLSR vulnerable to MPR selection manipulation (network isolation); GPSR vulnerable to position falsification (traffic misdirection)
+
+---
+
+## Slide 17: Secure Routing Protocols
+**Module 3: Routing Protocols and Secure Routing**
+
+- **SAODV (Secure AODV):** Adds digital signatures and hash chains to AODV; immutable fields signed by source; hash chain protects hop count (h³(seed) → h²(seed) → h¹(seed), verifier checks h(received) = previous); limitations: signature overhead, doesn't prevent wormhole, doesn't address insider threats
+- **ARAN (Authenticated Routing for Ad-hoc Networks):** End-to-end authentication using certificates from trusted CA; Route Discovery Packet contains source certificate, signed by source, each forwarder appends signature; prevents impersonation, detects modification
+- **SEAD (Secure Efficient Ad-hoc Distance Vector):** Uses one-way hash chains instead of signatures for better performance; hash computation ~1000× faster than signing, verification ~10000× faster; suitable for resource-constrained VANETs
+- **Position Verification (PLV):** Vehicle claims position → nearby verifiers check signal strength, direction of arrival, consistency with previous positions → majority vote determines acceptance
+- **Security vs. Performance Trade-off:** Adding authentication to every packet must not introduce latency that makes safety messages arrive too late—balance is critical
+
+---
+
+## Slide 18: VANET Defense Mechanisms
+**Module 3: Routing Protocols and Secure Routing**
+
+- **Trust Management:** Calculate trust score = α × DirectTrust (own observations) + β × IndirectTrust (network feedback) + γ × RecommendedTrust (trusted third parties); update: successful interaction = +reward, failed = -penalty, decay over time; forwarding decision: select neighbor with highest (proximity × trust) score
+- **Watchdog Mechanism:** After sending packet to forwarder, continue monitoring forwarder's transmissions; if forwarder doesn't retransmit within timeout, mark as suspect; Pathrater works with watchdog to rate paths, avoid suspected malicious nodes
+- **Specification-Based Detection:** Rules from physics and protocols—speed consistency (claimed vs. calculated), position consistency (distance ≤ max_possible), message rate limits, geographic consistency (position on road network); violations indicate attack or malfunction
+- **Wormhole Detection via Packet Leashes:** Geographic leash (sender includes GPS position + timestamp; receiver verifies distance ≤ speed_of_light × time_difference), temporal leash (tight time synchronization, reject packets exceeding max delay)
+- **Sybil Prevention:** Resource testing (computational puzzle with time limit—single device solves one), position verification (respond within time proportional to distance), certificate-based (limited pseudonyms from CA)
+
+---
+
+## Slide 19: Threat Actors Targeting IoV
+**Module 4: Attack Taxonomy**
 
 - **Nation-State Actors:** Motivations include espionage, infrastructure disruption, military advantage; capabilities include APTs, zero-days, supply chain attacks; targets include critical infrastructure, military vehicles, government officials; have virtually unlimited funding and legal immunity
 - **Organized Crime:** Motivated by financial gain through vehicle theft, cargo theft, ransomware, insurance fraud; capable of international operations with significant technical expertise; target high-value vehicles and commercial fleets
@@ -155,19 +218,19 @@
 
 ---
 
-## Slide 15: Network and Routing Attacks
-**Module 3: Threat Landscape**
+## Slide 20: Network and Routing Attacks
+**Module 4: Attack Taxonomy**
 
 - **Blackhole Attack:** Malicious vehicle advertises optimal routes with attractive metrics (lowest hop count), attracts traffic, then drops all packets—safety messages disappear, collision warnings never reach destinations, emergency vehicle notifications lost
-- **Sinkhole Attack:** More sophisticated than blackhole—attracts traffic but selectively processes packets: drops only emergency warnings while forwarding entertainment traffic; records traffic for intelligence gathering; delays critical messages just enough to reduce effectiveness
+- **Grayhole Attack:** More sophisticated than blackhole—attracts traffic but selectively processes packets: drops only emergency warnings while forwarding entertainment traffic; records traffic for intelligence gathering; delays critical messages just enough to reduce effectiveness
 - **Wormhole Attack:** Two colluding attackers create tunnel between distant network locations using private out-of-band connection (cellular, dedicated link)—distant nodes appear adjacent, routing tables corrupted, traffic analysis enabled, geographic routing completely broken
 - **DDoS Attack:** Multiple compromised nodes flood targets (RSUs, certificate servers, traffic management) with garbage messages—certificate server DDoS means vehicles can't validate messages and trust collapses network-wide
 - **Detection Challenge:** These attacks often use valid credentials and pass authentication; detection requires behavioral analysis and multi-point correlation
 
 ---
 
-## Slide 16: CAN Bus - The Fundamental Vulnerability
-**Module 3: Threat Landscape**
+## Slide 21: CAN Bus - The Fundamental Vulnerability
+**Module 4: Attack Taxonomy**
 
 - **CAN Bus Background:** Controller Area Network developed in 1980s for reliable, efficient in-vehicle communication—connects 70-100+ ECUs controlling engine, transmission, brakes, steering, airbags
 - **Fatal Design Weaknesses:** No authentication (any device can send any message), no encryption (all plaintext, any device reads all traffic), broadcast architecture (all messages to all nodes), priority-based access (attackers can dominate bus), no message freshness (replay attacks trivial)
@@ -177,8 +240,8 @@
 
 ---
 
-## Slide 17: Identity and Trust-Based Attacks
-**Module 3: Threat Landscape**
+## Slide 22: Identity and Trust-Based Attacks
+**Module 4: Attack Taxonomy**
 
 - **Sybil Attack:** Single malicious entity creates multiple fake identities simultaneously—in V2X, one vehicle creates 50 fake IDs broadcasting false congestion, making alternate routes appear jammed while attacker's route is clear; can also overwhelm voting/consensus systems
 - **Spoofing Attacks:** GPS spoofing with $300 SDR tricks vehicles into wrong location; Certificate spoofing requires compromised PKI but enables complete identity assumption; Emergency vehicle impersonation triggers traffic preemption and yields from other vehicles
@@ -188,74 +251,19 @@
 
 ---
 
-## Slide 18: Physical and Data Attacks
-**Module 3: Threat Landscape**
+## Slide 23: Physical and Data Attacks
+**Module 4: Attack Taxonomy**
 
 - **GPS Spoofing Danger:** Position is fundamental to safety messages, navigation, trust decisions, and time synchronization (derived from GPS); researchers demonstrated $300 SDR spoofing that redirected ships in Black Sea, fooled drones, tricked self-driving cars into wrong turns
 - **ECU Exploitation:** Firmware extraction via JTAG/debug ports, reverse engineering reveals vulnerabilities and cryptographic keys, malicious firmware injection creates persistent backdoors, calibration manipulation changes vehicle behavior
 - **Supply Chain Attacks:** Components compromised during manufacturing, malicious firmware from vendors, hardware backdoors implanted during assembly, tampering during shipping/storage—similar to SolarWinds attack pattern
 - **Long-Term Persistent Access:** Firmware implants survive reboots, boot sector modifications persist through updates, compromised OTA mechanisms reinstall malware, sleeper malware activates only under specific conditions—may survive factory resets
-- **Detection Challenge:** Operates below detection systems, mimics legitimate behavior, no obvious protocol violations—requires deep forensic analysis
-
----
-
-## Slide 19: V2X Protocol Stack Vulnerabilities
-**Module 4: V2X Vulnerabilities**
-
-- **Physical Layer:** DSRC 5.9 GHz / C-V2X bands vulnerable to jamming (flood with noise), signal manipulation, eavesdropping
-- **MAC Layer:** Channel access and collision avoidance mechanisms vulnerable to DoS, priority manipulation (safety-critical message suppression), timing attacks
-- **Network Layer:** Geographic routing assumes honest position reporting; multi-hop forwarding trusts intermediate nodes; address management can be spoofed
-- **Transport Layer:** Connection management vulnerable to session hijacking; reliability mechanisms exploitable for replay attacks
-- **Application Layer:** Basic Safety Messages (BSM) contain position, speed, heading, brake status—every field is a falsification target; semantic attacks change message meaning while maintaining valid structure
-- **Security Layer:** Cryptographic operations, certificate management vulnerable to key compromise, implementation flaws, side-channel attacks
-
----
-
-## Slide 20: Sybil Attacks in V2X Networks
-**Module 4: V2X Vulnerabilities**
-
-- **Why Sybil Works in V2X:** Pseudonymous operation (legitimate privacy feature makes multiple identities harder to detect), distributed decision-making (consensus/voting can be swayed), limited physical verification (can't verify identity corresponds to physical vehicle at network speed)
-- **Traffic Manipulation Scenario:** Malicious vehicle creates 50 Sybil identities all reporting position on alternate route → traffic management perceives congestion → navigation systems reroute other vehicles → attacker's route becomes clear
-- **Voting System Attack:** V2X applications use distributed voting for decisions (e.g., road hazard confirmation); Sybil votes overwhelm legitimate votes; false hazards reported or real hazards suppressed
-- **Resource Exhaustion:** Sybil identities flood network with apparently legitimate messages; RSUs must process all; legitimate safety messages delayed or dropped
-- **Detection Techniques:** Resource testing (physical vehicle has limited bandwidth—challenge simultaneous tasks), position verification (RSU directional antennas triangulate), computational puzzles (single device can only solve limited puzzles), radio fingerprinting (physical transmitter characteristics unique)
-
----
-
-## Slide 21: Message Integrity and Replay Attacks
-**Module 4: V2X Vulnerabilities**
-
-- **Message Alteration Targets:** Position modification (vehicle at intersection A → falsely shows intersection B), speed modification (30 km/h → 100 km/h causing incorrect decisions), event modification ("ice on road" → "road clear"), heading modification (north → south confusing collision predictions)
-- **Why Signatures Don't Fully Solve This:** Compromised vehicles have valid signing keys; insider threats have legitimate capability; stolen keys enable undetected alterations; some legacy systems have weak/missing signatures
-- **Replay Attack Categories:** Immediate replay (retransmit within seconds to overwhelm/confuse), delayed replay (capture hazard warning, replay after hazard clears), spatial replay (capture at location A, replay at location B), selective replay (analyze messages, replay only useful ones)
-- **Prevention Mechanisms:** Timestamps in signed messages (reject outside time window—but GPS time can be spoofed), nonces (track seen values, reject duplicates—but storage constraints limit tracking), location binding (verify position matches claim—but position itself spoofable), sequence numbers (reject out-of-order—but pseudonym changes reset sequences)
-
----
-
-## Slide 22: Eavesdropping and Privacy Attacks
-**Module 4: V2X Vulnerabilities**
-
-- **Eavesdropping Setup:** Simple software-defined radio (SDR) receiver + directional antenna + computing device = complete V2X monitoring for under $500; advanced networks can track across entire metropolitan areas
-- **Information from Single Message:** Vehicle pseudonym (temporary ID), exact GPS position (sub-meter accuracy), speed and heading, vehicle size (type inference), brake status, precise timestamp
-- **Accumulated Information:** Travel patterns, common routes, home and work locations, daily schedule, driving behavior profile, social connections (vehicles traveling together repeatedly)
-- **Pseudonym Linking Attack:** Even with changing identities, trajectory correlation (old pseudonym last seen at position A, new one first appears there), velocity correlation (unique speed patterns), physical characteristics (vehicle size rarely changes), behavioral analysis (driving style creates signature), multi-sensor fusion (combine with cameras/license plates)
-- **Privacy Impact:** Pattern-of-life analysis reveals home address, employer, daily schedule, frequented locations, religious affiliation, relationship status, financial status—all from "anonymized" broadcast data
-
----
-
-## Slide 23: Infrastructure and Backend Vulnerabilities
-**Module 4: V2X Vulnerabilities**
-
-- **RSU Trust Position:** Trusted source of traffic information, bridge between vehicles and backend, may control traffic signals, can command pseudonym changes—compromise affects entire region
-- **RSU Attack Vectors:** Physical attacks (deployed in public spaces, accessible for tampering), network attacks (internet-facing interfaces, management console exploits, default credentials), supply chain (compromised before deployment)
-- **RSU Compromise Consequences:** False speed limits and wrong signal timing, fake road closures and diverted traffic, malicious pseudonym issuance, malware distribution to vehicles, pivot point to attack backend
-- **Backend System Targets:** Certificate Authority (key theft, unauthorized certificate issuance, revocation manipulation), traffic management (false sensor data, signal timing manipulation, emergency preemption abuse), update systems (malicious update distribution, version downgrade attacks)
-- **Cascading Failures:** Backend compromise → attack all connected RSUs → compromise all vehicles in region → potential fleet-wide impact
+- **Position Falsification:** Claim to be at intersection when actually elsewhere; victim receives false collision warning; brakes unnecessarily; may cause real accident with following vehicles
 
 ---
 
 ## Slide 24: The Authentication vs. Privacy Dilemma
-**Module 5: Data Privacy**
+**Module 5: Authentication and Privacy-Preservation**
 
 - **Data Generation Volume:** Single connected vehicle generates 25+ GB/hour, 4 TB/day; location updates 10 times/second; hundreds of sensor readings continuously
 - **Data Categories Collected:** Vehicle state (GPS position, velocity, acceleration, brake status), environmental (camera imagery, LiDAR, radar), driver behavior (driving style, reaction times, attention), connected services (navigation destinations, voice commands, media consumption)
@@ -266,7 +274,7 @@
 ---
 
 ## Slide 25: Privacy-Preserving Technologies
-**Module 5: Data Privacy**
+**Module 5: Authentication and Privacy-Preservation**
 
 - **Pseudonymous Certificates:** Vehicle receives thousands of temporary certificates from SCMS; uses one active certificate at a time; rotates periodically (e.g., every 5 minutes); SCMS design specifies ~3,000 certificates per vehicle (20/week × 3 years)
 - **Mix-Zones:** Designated geographic areas (intersections, parking structures) where vehicles simultaneously change pseudonyms; all vehicles enter with old IDs, stop broadcasting, change IDs, exit with new IDs; observer cannot link entry and exit identities
@@ -277,7 +285,7 @@
 ---
 
 ## Slide 26: Regulatory Privacy Framework
-**Module 5: Data Privacy**
+**Module 5: Authentication and Privacy-Preservation**
 
 - **GDPR Applicability (EU):** Location data is personal data; vehicle telemetry often identifiable to person; requires lawful basis (safety = "vital interests," commercial = consent), data minimization (collect only necessary), purpose limitation (safety data cannot be used for marketing), storage limitation, data subject rights (access, deletion, portability)
 - **CCPA (California):** Applies to California residents' vehicle data; requires disclosure of data collection; provides opt-out rights for sale of data; vehicle manufacturers must comply for California market
@@ -288,7 +296,7 @@
 ---
 
 ## Slide 27: Cryptographic Foundations for IoV
-**Module 6: Cryptography and Authentication**
+**Module 6: Cryptography and Key Management**
 
 - **Security Requirements:** Authentication (verify messages from legitimate participants), integrity (detect modifications), non-repudiation (prevent denial of transmission for accident investigation), confidentiality (protect sensitive data), availability (cryptographic operations must not delay safety messages)
 - **Performance Challenge:** Traditional RSA-2048 verification takes 0.5-2ms; receiving 500 messages/second = 250-1000ms just for verification; per-message processing budget is only ~2ms including parsing, application logic, response
@@ -299,7 +307,7 @@
 ---
 
 ## Slide 28: Security Credential Management System (SCMS)
-**Module 6: Cryptography and Authentication**
+**Module 6: Cryptography and Key Management**
 
 - **SCMS Components:** Root CA (highest trust anchor, air-gapped, rarely used), Intermediate CA (operational, handles volume), Enrollment CA (issues long-term enrollment certificates for vehicle identity), Pseudonym CA (issues short-term pseudonymous certificates—multiple PCAs for privacy), Registration Authority (validates requests, policy enforcement), Linkage Authority (holds values connecting pseudonyms—split between parties for privacy), Misbehavior Authority (receives reports, determines revocation)
 - **Certificate Lifecycle:** Initial enrollment (manufacturer provisions OBU → contacts Enrollment CA → enrollment certificate issued), pseudonym request (uses enrollment cert → requests batch of pseudonyms → linkage values embedded), usage (select pseudonym → sign messages → rotate per policy), revocation (misbehavior detected → Linkage Authorities provide linkage → all pseudonyms identified → CRL distributed)
@@ -310,7 +318,7 @@
 ---
 
 ## Slide 29: Message Authentication and Key Management
-**Module 6: Cryptography and Authentication**
+**Module 6: Cryptography and Key Management**
 
 - **IEEE 1609.2 Security Format:** All V2X messages secured with protocol version, content/data, header info (generation time, expiry, location, certificate), ECDSA signature covering content + headers
 - **Certificate Options:** Full certificate included (no prior knowledge needed, bandwidth-intensive) or certificate digest (8-byte hash, receiver must have certificate, much smaller)
@@ -321,7 +329,7 @@
 ---
 
 ## Slide 30: Advanced Cryptographic Techniques
-**Module 6: Cryptography and Authentication**
+**Module 6: Cryptography and Key Management**
 
 - **Zero-Knowledge Proofs:** Prove you know something without revealing what—prove valid certificate without revealing which one; prove vehicle meets standards without revealing VIN; prove moving (not stationary attacker) without revealing trajectory
 - **Attribute-Based Credentials:** Certificates that certify attributes ("valid vehicle in jurisdiction," "emergency vehicle," "commercial >10 tons") rather than identity; selective disclosure reveals only needed attributes
@@ -376,7 +384,7 @@
 ---
 
 ## Slide 35: Blockchain Fundamentals for IoV
-**Module 8: Blockchain for IoV Security**
+**Additional: Blockchain for IoV Security**
 
 - **Core Properties:** Decentralization (no single controlling entity, data replicated across nodes), immutability (once recorded cannot be altered, cryptographic hashes link blocks), transparency (all participants can view/audit ledger), consensus (agreement mechanism for adding data)
 - **Why Blockchain for IoV:** Traditional centralized PKI creates single points of failure—if hackers compromise the central SCMS, entire trust system collapses; blockchain distributes verification across thousands of nodes
@@ -387,7 +395,7 @@
 ---
 
 ## Slide 36: Blockchain Applications in IoV
-**Module 8: Blockchain for IoV Security**
+**Additional: Blockchain for IoV Security**
 
 - **Decentralized Identity Management:** Vehicle registers identity on blockchain; public key recorded in transaction; certificate validity verifiable by any node; revocation recorded instantly visible to all—no single point of failure, instant revocation propagation, cross-border trust without bilateral agreements
 - **Secure OTA Updates:** Manufacturer creates update → signs it → records cryptographic hash on blockchain; vehicle downloads update → computes hash → compares with blockchain-recorded hash → verifies signature → installs only if all match; attacker cannot modify (hash mismatch), cannot inject fake (signature fails), rollback detectable (blockchain history)
@@ -397,19 +405,8 @@
 
 ---
 
-## Slide 37: Blockchain Challenges and Solutions
-**Module 8: Blockchain for IoV Security**
-
-- **Scalability Trilemma:** Traditional blockchains sacrifice one of decentralization/security/scalability; IoV needs millions of vehicles, 10 messages/second each, real-time requirements
-- **Scalability Solutions:** Layer 2 (process off-chain, periodically commit to main chain), sharding (divide network geographically, each shard processes subset), sidechains (regional chains for local V2X, main chain for global operations)
-- **Latency Challenge:** Blockchain confirmation takes minutes; IoV safety messages need <100ms; solutions: pre-position/cache blockchain state locally, probabilistic confirmation (accept before full confirmation for low-stakes), hybrid approaches (blockchain for registration, traditional for runtime)
-- **Storage/Bandwidth:** Full blockchain grows with every transaction—not feasible for vehicles; solutions: light clients (store only headers, request data as needed), off-chain storage (hashes on-chain, data in IPFS), pruning (keep only recent data, archive nodes maintain history)
-- **Privacy Challenge:** Blockchain transactions visible to all, transaction graph analyzable; solutions: zero-knowledge proofs (prove validity without revealing content), confidential transactions (encrypt amounts), private channels (subset of parties see transaction)
-
----
-
-## Slide 38: Adversarial AI - The Threat to Autonomous Vehicles
-**Module 9: Adversarial AI**
+## Slide 37: Adversarial AI - The Threat to Autonomous Vehicles
+**Additional: Adversarial AI**
 
 - **AI Role in Autonomous Vehicles:** Object detection (vehicles, pedestrians, obstacles), lane detection (road boundaries), traffic sign recognition, semantic segmentation, depth estimation, sensor fusion, path planning, motion control
 - **Why Neural Networks Are Vulnerable:** High dimensionality (millions of pixels = many adversarial perturbations possible), non-linear decision boundaries (small input changes can cross boundaries), lack of uncertainty quantification (confident wrong predictions), distributional assumptions (trained on specific data, real world differs)
@@ -419,8 +416,8 @@
 
 ---
 
-## Slide 39: Physical Adversarial Attacks
-**Module 9: Adversarial AI**
+## Slide 38: Physical Adversarial Attacks
+**Additional: Adversarial AI**
 
 - **Digital vs. Physical:** Digital attacks modify pixel values directly (unrealistic for real vehicles); physical attacks modify real-world objects and must survive environmental variation (viewing angle, lighting, distance, weather)
 - **Stop Sign Attack:** Researchers placed carefully calculated black/white stickers on stop signs; human drivers still clearly saw stop sign; autonomous vehicle AI classified as "Speed Limit 45" and accelerated through intersection; 80%+ misclassification rates across multiple architectures
@@ -430,107 +427,30 @@
 
 ---
 
-## Slide 40: Data Poisoning and AI Defenses
-**Module 9: Adversarial AI**
+## Slide 39: AI Defenses and Secure System Design
+**Additional: Adversarial AI**
 
-- **Data Poisoning Attack:** Inject malicious data into training datasets; when vehicles contribute crowdsourced driving data, attacker contributes poisoned data; model learns incorrect associations; all vehicles receive compromised model via OTA
-- **Backdoor Attacks:** Model behaves normally on standard inputs but exhibits attacker-chosen behavior when trigger present (e.g., yellow Post-It on any sign → classify as speed limit); dormant until triggered; undetectable on normal inputs; extremely difficult to find
 - **Defense: Adversarial Training:** Include adversarial examples in training with correct labels; model learns to correctly classify adversarial inputs; limitations: computationally expensive, may reduce clean accuracy, only robust to seen attacks
 - **Defense: Input Preprocessing:** Denoising, JPEG compression, random resizing/padding—removes some perturbations; limitations: adaptive attacks can evade, may degrade input quality, adds latency
 - **Defense: Multi-Sensor Fusion:** Attack must fool multiple sensor types (camera + LiDAR + radar); cross-validation between sensors; disagreement triggers safe fallback; if camera sees obstacle but LiDAR doesn't confirm, investigate before acting
+- **Defense in Depth for AI:** Layer 1: Robust models, Layer 2: Input validation, Layer 3: Sensor fusion, Layer 4: Behavioral monitoring, Layer 5: Safe fallbacks (human takeover, conservative defaults)
+- **Uncertainty Quantification:** Know when model is confident vs. uncertain; don't act on uncertain predictions; request human intervention when uncertain
 
 ---
 
-## Slide 41: Secure AI System Design
-**Module 9: Adversarial AI**
-
-- **Defense in Depth for AI:** Layer 1: Robust models (adversarial training, certified defenses), Layer 2: Input validation (preprocessing, anomaly detection), Layer 3: Sensor fusion (multi-modal verification, disagreement detection), Layer 4: Behavioral monitoring (plausibility checking, physical constraints), Layer 5: Safe fallbacks (human takeover, conservative defaults)
-- **Uncertainty Quantification:** Know when model is confident vs. uncertain; don't act on uncertain predictions; request human intervention when uncertain; approaches: Bayesian neural networks (expensive), Monte Carlo dropout (practical approximation), ensemble methods (multiple models vote)
-- **Anomaly Detection:** Input-level (detect inputs far from training distribution), output-level (unusual predictions, sudden behavior changes), behavioral (vehicle behavior vs. physics-based constraints)
-- **Safety Standards:** ISO 26262 (functional safety, designed for deterministic systems—AI challenges assumptions), ISO 21448 SOTIF (addresses perception limitations, includes adversarial robustness)
-- **Liability Considerations:** If adversarial attack causes accident, who is liable? Manufacturer (should have defended)? Attacker (caused harm)? Owner (maintained security)? Standards for "reasonable" defenses still evolving
-
----
-
-## Slide 42: VANET Fundamentals
-**Module 12: VANET Security**
-
-- **VANET Definition:** Vehicular Ad-Hoc Network—subclass of Mobile Ad-Hoc Networks where vehicles act as mobile nodes that join/leave dynamically; self-organizing without central authority; each node can route messages; vehicles move at 30-150 km/h with topology changing every second
-- **Key Characteristics:** Self-organizing (no central authority = trust establishment challenging), decentralized (every node routes = any node can become malicious), high mobility (rapid topology changes), intermittent connectivity (connections last seconds), no fixed infrastructure (pure V2V possible = cannot rely on trusted anchors)
-- **Communication Modes:** Single-hop (direct, 300-1000m, lowest latency ~1-5ms, most reliable), multi-hop (extends range via intermediate forwarding, each hop adds latency, path breaks if any vehicle moves), broadcast (one-to-all for safety messages, no acknowledgment)
-- **Protocol Stack:** Application (safety, traffic, comfort apps), transport (UDP for safety/low-latency, TCP for reliable transfer), network (AODV, DSR, GPSR routing), MAC (IEEE 802.11p or C-V2X), physical (5.9 GHz band)
-- **VANET vs. Traditional Networks:** Traditional = fixed topology, trusted infrastructure, centralized routing, static security; VANET = dynamic topology (changes every second), no central authority, every node routes, trust established on-the-fly
-
----
-
-## Slide 43: VANET Routing Protocols and Vulnerabilities
-**Module 12: VANET Security**
-
-- **Routing Protocol Types:** Proactive/table-driven (maintain routes continuously—high overhead in dynamic VANETs), reactive/on-demand (discover routes when needed—lower overhead, initial latency), position-based/geographic (use GPS, forward to neighbor closest to destination—no routing tables needed), cluster-based (group vehicles, cluster heads handle inter-cluster routing)
-- **AODV (Ad-hoc On-demand Distance Vector):** Discovers routes via RREQ/RREP; vulnerabilities: no authentication, sequence numbers can be forged, hop count manipulated, route replies spoofed—designed assuming all nodes are cooperative and honest
-- **GPSR (Greedy Perimeter Stateless Routing):** Uses GPS coordinates, forwards to neighbor closest to destination; vulnerabilities: relies entirely on position information that can be spoofed; attacker claims position closer to destination → attracts all traffic
-- **Protocol Comparison:** AODV vulnerable to sequence number manipulation (route hijacking); DSR vulnerable to route cache poisoning (traffic interception); OLSR vulnerable to MPR selection manipulation (network isolation); GPSR vulnerable to position falsification (traffic misdirection)
-- **Fundamental Problem:** All routing protocols assume cooperative honest nodes—but in adversarial environments, any node can lie about position, fabricate routes, or silently drop packets
-
----
-
-## Slide 44: VANET Attack Taxonomy
-**Module 12: VANET Security**
-
-- **Blackhole Attack:** Malicious node advertises optimal routes, attracts traffic, drops all packets—safety messages never reach destination; emergency warnings disappear; network partitioning occurs
-- **Grayhole Attack:** More sophisticated—selectively drops packets (e.g., drop emergency warnings, forward entertainment); harder to detect; appears as network congestion rather than attack
-- **Wormhole Attack:** Two colluding attackers create out-of-band tunnel (cellular/dedicated link); capture packets at one location, instantly replay at distant location; network routing believes distant nodes are adjacent; all traffic routes through wormhole; enables interception/modification/dropping
-- **Sybil Attack:** Single vehicle creates multiple fake identities; voting manipulation (fake congestion reports), resource exhaustion (flood route requests), reputation gaming (fake positive reviews), traffic manipulation (ghost vehicle presence)
-- **Position Falsification:** Claim to be at intersection when actually elsewhere; victim receives false collision warning; brakes unnecessarily; may cause real accident with following vehicles
-
----
-
-## Slide 45: Secure VANET Routing Protocols
-**Module 12: VANET Security**
-
-- **SAODV (Secure AODV):** Adds digital signatures and hash chains; immutable fields signed by source; hash chain protects hop count (h³(seed) → h²(seed) → h¹(seed), verifier checks h(received) = previous); limitations: signature overhead, doesn't prevent wormhole, doesn't address insider threats
-- **ARAN (Authenticated Routing for Ad-hoc Networks):** End-to-end authentication using certificates from trusted CA; Route Discovery Packet contains source certificate, signed by source, each forwarder appends signature; prevents impersonation, detects modification
-- **SEAD (Secure Efficient Ad-hoc Distance Vector):** Uses one-way hash chains instead of signatures for better performance; hash computation ~1000× faster than signing, verification ~10000× faster; suitable for resource-constrained VANETs
-- **Position Verification (PLV):** Vehicle claims position → nearby verifiers check signal strength, direction of arrival, consistency with previous positions → majority vote determines acceptance; challenges: requires multiple witnesses, may not work in sparse networks, colluding attackers can fool verification
-- **Security vs. Performance Trade-off:** Adding authentication to every packet must not introduce latency that makes safety messages arrive too late—balance is critical
-
----
-
-## Slide 46: VANET Defense Mechanisms
-**Module 12: VANET Security**
-
-- **Trust Management:** Calculate trust score = α × DirectTrust (own observations) + β × IndirectTrust (network feedback) + γ × RecommendedTrust (trusted third parties); update: successful interaction = +reward, failed = -penalty, decay over time; forwarding decision: select neighbor with highest (proximity × trust) score
-- **Watchdog Mechanism:** After sending packet to forwarder, continue monitoring forwarder's transmissions; if forwarder doesn't retransmit within timeout, mark as suspect; Pathrater works with watchdog to rate paths, avoid suspected malicious nodes
-- **Specification-Based Detection:** Rules from physics and protocols—speed consistency (claimed vs. calculated), position consistency (distance ≤ max_possible), message rate limits, geographic consistency (position on road network); violations indicate attack or malfunction
-- **Wormhole Detection via Packet Leashes:** Geographic leash (sender includes GPS position + timestamp; receiver verifies distance ≤ speed_of_light × time_difference), temporal leash (tight time synchronization, reject packets exceeding max delay)
-- **Sybil Prevention:** Resource testing (computational puzzle with time limit—single device solves one), position verification (respond within time proportional to distance—Sybil identities at different positions can't all respond correctly), certificate-based (limited pseudonyms from CA, cannot create unlimited identities)
-
----
-
-## Slide 47: VANET Privacy and Implementation
-**Module 12: VANET Security**
-
-- **Privacy at Risk:** Real-time location tracking, travel pattern analysis, home/work inference, social relationship mapping, commercial profiling
-- **Pseudonym Schemes:** Basic rotation (change pseudonym every 5-10 minutes), silent period strategy (stop transmitting, change pseudonym, resume with new identity—creates safety gap), mix-zone integration (enter with old ID, mixing occurs, exit with new ID)
-- **Group Signatures for VANETs:** Vehicle signs as "group member" not individual; verifier confirms valid membership without identifying signer; authority can "open" signature in emergency; strong privacy for normal operation, accountability preserved
-- **Hardware Security Requirements:** HSM (secure key storage, crypto acceleration, tamper resistance—Infineon SLS 32, NXP i.MX), TPM (secure boot verification, platform integrity), GPS anti-spoofing (multi-constellation receivers, INS integration)
-- **Performance Requirements:** Signature generation <1ms, verification <2ms, route decision including security <5ms, total processing for safety message <10ms; at dense traffic (1000+ messages/second), hardware acceleration essential
-
----
-
-## Slide 48: UNECE WP.29 Regulations
-**Module 10: Global Standards**
+## Slide 40: UNECE WP.29 Regulations
+**Additional: Global Standards**
 
 - **Regulatory Evolution:** Pre-2015 = voluntary guidelines, cybersecurity as afterthought; 2015 Jeep hack = watershed moment; 2020 = UNECE WP.29 regulations adopted; now = mandatory compliance in 60+ countries including EU, Japan, Korea, Australia
 - **UN Regulation No. 155 (CSMS):** Requires certified Cybersecurity Management System for vehicle type approval; governance (board-level accountability, defined responsibilities, adequate resources), processes (risk assessment, security by design, testing, incident response), operations (threat monitoring, vulnerability management, update deployment)
 - **Threat Categories (R155 Annex 5):** Backend servers (certificate authority compromise), communication channels (V2X spoofing), update procedures (malicious updates), external connectivity (OBD attacks), data/code (extraction, modification), physical (sensor attacks, tampering)
 - **Compliance Timeline:** July 2022 = CSMS certification required for new type approvals; July 2024 = all new vehicles sold must have CSMS; certificate valid 3 years, must be renewed, can be withdrawn for non-compliance
-- **UN Regulation No. 156 (SUMS):** Software Update Management System required; documented processes, security assessment for updates, validation before deployment, rollback capability, authentication and integrity protection, RX-SVIN (Software Version ID Number)
+- **UN Regulation No. 156 (SUMS):** Software Update Management System required; documented processes, security assessment for updates, validation before deployment, rollback capability, authentication and integrity protection
 
 ---
 
-## Slide 49: ISO/SAE 21434 Standard
-**Module 10: Global Standards**
+## Slide 41: ISO/SAE 21434 Standard
+**Additional: Global Standards**
 
 - **Relationship to WP.29:** R155 mandates WHAT must be done; ISO 21434 describes HOW to do it; compliance with 21434 supports R155 compliance; not strictly mandatory but effectively required
 - **Cybersecurity Engineering Lifecycle:** Concept phase (define item, perform TARA), product development phase (design, implement, verify), post-development phase (monitor, respond, maintain); throughout: cybersecurity management
@@ -540,29 +460,23 @@
 
 ---
 
-## Slide 50: Regional Regulations and Data Privacy
-**Module 10: Global Standards**
-
-- **European Union:** Direct UNECE R155/R156 application with strong enforcement; GDPR applies to vehicle-generated location/behavioral data (lawful basis, minimization, purpose limitation, data subject rights); upcoming Cyber Resilience Act may affect vehicle components
-- **United States:** NHTSA "Cybersecurity Best Practices" guidance is non-binding (no federal mandate); state-level variation (California DMV regulations for autonomous vehicles, CCPA for privacy); industry self-regulation via Auto-ISAC (threat intelligence sharing)
-- **China:** Cybersecurity Law (2017) with critical infrastructure protection, Data Security Law (2021) with classification and cross-border restrictions; data must be stored in China; security assessments for data exports; Chinese cryptography standards required
-- **GDPR Connected Vehicle Requirements:** Location data = personal data; driving behavior = personal data; voice commands = personal data; requires consent for commercial use, right to deletion, data portability; massive fines for non-compliance (VW and others overhauled infotainment agreements)
-- **Future Trends:** AI-specific regulations (EU AI Act with algorithmic accountability), autonomous vehicle Level 4/5 specific requirements, post-quantum cryptography migration mandates, continued international harmonization efforts
-
----
-
-## Slide 51: Summary - Multi-Layered IoV Security
+## Slide 42: Summary - Multi-Layered IoV Security
 **Conclusion**
 
 - **IoV Transformation:** Vehicles evolved from isolated machines to networked computing platforms generating terabytes of data daily; this creates unprecedented safety benefits and unprecedented security risks
-- **Architecture Foundation:** Three-tier computing (edge/fog/cloud), V2X communication (V2V/V2I/V2P/V2N), DSRC and C-V2X technologies, SCMS for credential management—security must protect all layers
-- **Threat Landscape:** Nation-state actors, organized crime, insider threats; network attacks (blackhole, wormhole, Sybil), CAN bus exploitation, GPS spoofing, adversarial AI attacks on perception systems
-- **Defense Strategy:** Lightweight cryptography (ECC/ECDSA), robust PKI/SCMS, pseudonymous privacy, intrusion/misbehavior detection, sensor fusion verification, blockchain for decentralized trust, secure VANET routing protocols
-- **Regulatory Reality:** UNECE WP.29 R155/R156 mandatory in 60+ countries since 2022; ISO 21434 provides implementation framework; CSMS certification required for type approval; continuous compliance obligation
+- **Core Modules Covered:**
+  - **Module 1:** Architecture (OBU, RSU, Cloud/Fog/Edge, V2X)
+  - **Module 2:** Characteristics and Challenges (mobility, latency, constraints)
+  - **Module 3:** Routing Protocols (VANET, AODV, GPSR, secure routing)
+  - **Module 4:** Attack Taxonomy (network, identity, physical attacks)
+  - **Module 5:** Authentication and Privacy (pseudonyms, mix-zones)
+  - **Module 6:** Cryptography and Key Management (ECC, SCMS, PKI)
+  - **Module 7:** Intrusion Detection Systems (signature, anomaly, ML-based)
+- **Defense Strategy:** Lightweight cryptography, robust PKI/SCMS, pseudonymous privacy, intrusion/misbehavior detection, sensor fusion verification, secure VANET routing protocols
 
 ---
 
-## Slide 52: Future Outlook and Key Takeaways
+## Slide 43: Future Outlook and Key Takeaways
 **Conclusion**
 
 - **Emerging Challenges:** 5G/6G connectivity expanding attack surface, fully autonomous Level 4/5 vehicles with AI-centric architectures, quantum computing threatening current cryptography, AI-specific regulations, increasing V2X deployment scale
@@ -573,11 +487,19 @@
 
 ---
 
-## Slide 53: Q&A Session
+## Slide 44: Q&A Session
 **Conclusion**
 
-- **Topics Covered:** IoV architecture and evolution, V2X communication paradigms, threat landscape and attack taxonomy, VANET security and routing protocols, cryptography and SCMS, intrusion and misbehavior detection, blockchain applications, adversarial AI threats, global regulatory requirements
+- **Core Topics Covered:** IoV architecture and evolution (Module 1), characteristics and challenges (Module 2), routing protocols and secure routing (Module 3), attack taxonomy (Module 4), authentication and privacy (Module 5), cryptography and key management (Module 6), intrusion detection systems (Module 7)
+- **Additional Topics:** V2X vulnerabilities, blockchain applications, adversarial AI threats, global regulatory requirements
 - **Further Exploration:** Module deep-dives available for each topic area; practical exercises include V2X vulnerability assessment, cryptographic performance analysis, misbehavior detection simulation, VANET attack simulation
 - **Industry Resources:** Auto-ISAC for threat intelligence sharing, MOBI consortium for blockchain exploration, IEEE 1609 and 3GPP standards documentation, NHTSA best practices guidance
-- **Questions Welcome:** Specific attack vectors (stop sign modification, CAN bus injection), defense mechanisms (SAODV hash chains, mix-zone privacy), regulatory compliance (CSMS establishment, TARA methodology), implementation challenges (latency budgets, hardware security)
-- **Thank you for your attention!**
+- **Questions Welcome!**
+
+---
+
+**Thank you for your attention!**
+
+**لنؤمّن مستقبل التنقل المتصل معاً**
+
+**Let's secure the future of connected mobility together.**
