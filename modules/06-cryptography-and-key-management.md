@@ -1,8 +1,8 @@
-# Module 6: Cryptography and Authentication in IoV
+# Module 6: Cryptography and Key Management
 
 ## Overview
 
-Cryptography forms the foundation of trust in IoV systems. Without robust cryptographic mechanisms, vehicles cannot verify the authenticity of safety messages, protect sensitive data, or maintain privacy. This module provides a comprehensive examination of cryptographic techniques applied to IoV, including authentication mechanisms, key management, and the unique challenges of applying cryptography in high-speed, safety-critical vehicular environments.
+Cryptography forms the foundation of trust in IoV systems. Without robust cryptographic mechanisms, vehicles cannot verify the authenticity of safety messages, protect sensitive data, or maintain privacy. This module provides a comprehensive examination of cryptographic techniques applied to IoV, including cryptographic algorithms, key management, and the unique challenges of applying cryptography in high-speed, safety-critical vehicular environments.
 
 ---
 

@@ -1,4 +1,4 @@
-# Module 3: Threat Landscape and Attack Taxonomy
+# Module 4: Attack Taxonomy
 
 ## Overview
 
@@ -6,9 +6,9 @@ The Internet of Vehicles presents a unique and complex threat landscape that com
 
 ---
 
-## 3.1 Understanding the IoV Threat Landscape
+## 4.1 Understanding the IoV Threat Landscape
 
-### 3.1.1 Threat Actors
+### 4.1.1 Threat Actors
 
 Before examining specific attacks, it's crucial to understand who might attack IoV systems and why.
 
@@ -48,7 +48,7 @@ Before examining specific attacks, it's crucial to understand who might attack I
 - **Targets:** Employer's systems, customer data, vehicle fleets
 - **Resources:** Inside knowledge and access
 
-### 3.1.2 Attack Surface Analysis
+### 4.1.2 Attack Surface Analysis
 
 The IoV attack surface is extensive, spanning multiple layers:
 
@@ -84,11 +84,11 @@ The IoV attack surface is extensive, spanning multiple layers:
 
 ---
 
-## 3.2 Network-Level Attacks
+## 4.2 Network-Level Attacks
 
 Network-level attacks target the communication infrastructure and protocols that enable IoV functionality. These attacks can disrupt, manipulate, or eavesdrop on vehicular communications.
 
-### 3.2.1 Blackhole Attack
+### 4.2.1 Blackhole Attack
 
 **Description:**
 A blackhole attack occurs when a malicious node advertises itself as having the optimal route to a destination, attracting traffic from surrounding vehicles. Once packets are routed through the malicious node, it simply drops them, creating a "black hole" in the network where data disappears.
@@ -117,7 +117,7 @@ A blackhole attack occurs when a malicious node advertises itself as having the 
 - Trust-based routing protocols
 - Anomaly detection systems monitoring forwarding behavior
 
-### 3.2.2 Sinkhole Attack
+### 4.2.2 Sinkhole Attack
 
 **Description:**
 Similar to a blackhole attack, but more sophisticated. The sinkhole attack attracts traffic to a malicious node, which then selectively processes packets rather than simply dropping them all.
@@ -142,7 +142,7 @@ An attacker positions a compromised vehicle at a major intersection. The vehicle
 3. Records location data from all passing vehicles
 4. Delays collision warnings by 50ms (enough to reduce effectiveness)
 
-### 3.2.3 Distributed Denial of Service (DDoS)
+### 4.2.3 Distributed Denial of Service (DDoS)
 
 **Description:**
 DDoS attacks in IoV involve multiple compromised nodes flooding targets with traffic, overwhelming their processing capacity and preventing legitimate communication.
@@ -182,7 +182,7 @@ DDoS attacks in IoV involve multiple compromised nodes flooding targets with tra
 - Traffic scrubbing and anomaly detection
 - Emergency fallback modes for critical services
 
-### 3.2.4 Wormhole Attack
+### 4.2.4 Wormhole Attack
 
 **Description:**
 A wormhole attack involves two or more colluding attackers who create an illicit tunnel between different network locations, making distant nodes appear to be neighbors.
@@ -230,9 +230,9 @@ A wormhole attack involves two or more colluding attackers who create an illicit
 
 ---
 
-## 3.3 Physical and Hardware Attacks
+## 4.3 Physical and Hardware Attacks
 
-### 3.3.1 The CAN Bus Vulnerability
+### 4.3.1 The CAN Bus Vulnerability
 
 **Background:**
 The Controller Area Network (CAN) bus was developed in the 1980s as a reliable, efficient communication system for automotive components. It was designed for a closed environment where all components were trusted.
@@ -264,7 +264,7 @@ The Controller Area Network (CAN) bus was developed in the 1980s as a reliable, 
 - Malicious aftermarket devices
 - Supply chain tampering
 
-### 3.3.2 The 2015 Jeep Cherokee Hack: A Case Study
+### 4.3.2 The 2015 Jeep Cherokee Hack: A Case Study
 
 **Background:**
 In July 2015, security researchers Charlie Miller and Chris Valasek demonstrated the first fully remote compromise of a production vehicle, fundamentally changing automotive cybersecurity.
@@ -312,7 +312,7 @@ In July 2015, security researchers Charlie Miller and Chris Valasek demonstrated
 4. Automotive security requires end-to-end architecture review
 5. Security researchers can be allies, not just threats
 
-### 3.3.3 ECU Exploitation
+### 4.3.3 ECU Exploitation
 
 **ECU Architecture:**
 Modern vehicles contain 70-100+ Electronic Control Units, each with:
@@ -352,9 +352,9 @@ Modern vehicles contain 70-100+ Electronic Control Units, each with:
 
 ---
 
-## 3.4 Identity and Trust Attacks
+## 4.4 Identity and Trust Attacks
 
-### 3.4.1 Spoofing Attacks
+### 4.4.1 Spoofing Attacks
 
 **Definition:**
 Spoofing attacks involve falsifying identity information to bypass security controls or frame innocent parties.
@@ -406,7 +406,7 @@ GPS spoofing is particularly dangerous for IoV because:
 - Cryptographic GPS authentication (future)
 - Spoofing detection algorithms
 
-### 3.4.2 Impersonation Attacks
+### 4.4.2 Impersonation Attacks
 
 **Description:**
 Impersonation attacks go beyond spoofing identifiers to fully assume the identity of another entity, including their privileges and trust relationships.
@@ -442,9 +442,9 @@ Impersonation attacks go beyond spoofing identifiers to fully assume the identit
 
 ---
 
-## 3.5 Message-Based Attacks
+## 4.5 Message-Based Attacks
 
-### 3.5.1 Message Falsification
+### 4.5.1 Message Falsification
 
 **Description:**
 Creating and transmitting messages containing false information that appears legitimate.
@@ -476,7 +476,7 @@ False messages can cause:
 - Ignored warnings (crying wolf effect)
 - Resource waste (emergency response)
 
-### 3.5.2 Replay Attacks
+### 4.5.2 Replay Attacks
 
 **Description:**
 Capturing valid messages and retransmitting them at inappropriate times or locations.
@@ -504,9 +504,9 @@ Capturing valid messages and retransmitting them at inappropriate times or locat
 
 ---
 
-## 3.6 Advanced Persistent Threats
+## 4.6 Advanced Persistent Threats
 
-### 3.6.1 Supply Chain Attacks
+### 4.6.1 Supply Chain Attacks
 
 **Description:**
 Compromising vehicles or infrastructure during manufacturing, distribution, or maintenance.
@@ -535,7 +535,7 @@ While specific IoV supply chain attacks are not public, related examples include
 - Vendor security requirements
 - Regular auditing
 
-### 3.6.2 Long-Term Persistent Access
+### 4.6.2 Long-Term Persistent Access
 
 **Description:**
 Establishing hidden, persistent access to vehicle systems for ongoing exploitation.
@@ -556,7 +556,7 @@ Establishing hidden, persistent access to vehicle systems for ongoing exploitati
 
 ---
 
-## 3.7 Summary
+## 4.7 Summary
 
 The IoV threat landscape encompasses attacks from multiple domains, targeting every layer of the technology stack. From network-level routing attacks to physical hardware exploitation, from identity theft to supply chain compromise, defenders must maintain comprehensive security awareness.
 

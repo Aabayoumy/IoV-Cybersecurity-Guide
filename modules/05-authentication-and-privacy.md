@@ -1,8 +1,8 @@
-# Module 5: Data Privacy in IoV
+# Module 5: Authentication and Privacy-Preservation
 
 ## Overview
 
-The Internet of Vehicles generates unprecedented amounts of personal data. Every connected vehicle continuously broadcasts its location, speed, and trajectory while collecting detailed information about driver behavior, travel patterns, and daily routines. This module examines the fundamental privacy challenges in IoV systems, the tension between safety requirements and privacy expectations, and the technical solutions being developed to address these concerns.
+The Internet of Vehicles generates unprecedented amounts of personal data. Every connected vehicle continuously broadcasts its location, speed, and trajectory while collecting detailed information about driver behavior, travel patterns, and daily routines. This module examines authentication mechanisms, privacy-preservation techniques, the tension between safety requirements and privacy expectations, and the technical solutions being developed to address these concerns.
 
 ---
 

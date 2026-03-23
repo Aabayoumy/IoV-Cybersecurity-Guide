@@ -1,14 +1,14 @@
-# Module 12: Wireless Ad-Hoc Networks in IoV - VANET Security
+# Module 3: Types of Routing Protocols and Secure Routing
 
 ## Overview
 
-Vehicular Ad-Hoc Networks (VANETs) form the wireless communication backbone of the Internet of Vehicles. Unlike traditional infrastructure-based networks, VANETs are self-organizing, decentralized networks where vehicles communicate directly with each other without relying on fixed infrastructure. This unique architecture introduces specific security challenges that require specialized solutions. This module provides comprehensive coverage of VANET fundamentals, security threats, secure routing protocols, and defense mechanisms.
+Vehicular Ad-Hoc Networks (VANETs) form the wireless communication backbone of the Internet of Vehicles. Unlike traditional infrastructure-based networks, VANETs are self-organizing, decentralized networks where vehicles communicate directly with each other without relying on fixed infrastructure. This unique architecture introduces specific security challenges that require specialized solutions. This module provides comprehensive coverage of VANET fundamentals, types of routing protocols, secure routing protocols, and defense mechanisms.
 
 ---
 
-## 12.1 VANET Fundamentals
+## 3.1 VANET Fundamentals
 
-### 12.1.1 What is a VANET?
+### 3.1.1 What is a VANET?
 
 **Definition:**
 A Vehicular Ad-Hoc Network (VANET) is a subclass of Mobile Ad-Hoc Networks (MANETs) specifically designed for vehicle-to-vehicle communication, where vehicles act as mobile nodes that can join and leave the network dynamically.
@@ -24,7 +24,7 @@ A Vehicular Ad-Hoc Network (VANET) is a subclass of Mobile Ad-Hoc Networks (MANE
 | **Intermittent Connectivity** | Connections last seconds | Multi-hop paths unstable |
 | **No Fixed Infrastructure** | Pure V2V without RSUs possible | Cannot rely on trusted anchors |
 
-### 12.1.2 VANET vs. Traditional Networks
+### 3.1.2 VANET vs. Traditional Networks
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -61,7 +61,7 @@ A Vehicular Ad-Hoc Network (VANET) is a subclass of Mobile Ad-Hoc Networks (MANE
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 12.1.3 VANET Communication Modes
+### 3.1.3 VANET Communication Modes
 
 **Single-Hop Communication:**
 ```
@@ -109,7 +109,7 @@ A Vehicular Ad-Hoc Network (VANET) is a subclass of Mobile Ad-Hoc Networks (MANE
 - Broadcast storm problem in dense networks
 - No acknowledgment (fire and forget)
 
-### 12.1.4 VANET Protocol Stack
+### 3.1.4 VANET Protocol Stack
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -148,9 +148,9 @@ A Vehicular Ad-Hoc Network (VANET) is a subclass of Mobile Ad-Hoc Networks (MANE
 
 ---
 
-## 12.2 VANET Routing Protocols
+## 3.2 VANET Routing Protocols
 
-### 12.2.1 Routing Classification
+### 3.2.1 Routing Classification
 
 **Topology-Based Routing:**
 
@@ -178,7 +178,7 @@ A Vehicular Ad-Hoc Network (VANET) is a subclass of Mobile Ad-Hoc Networks (MANE
 - Reduces overhead in dense networks
 - Examples: CBLR, LORA-CBF
 
-### 12.2.2 Key Routing Protocols
+### 3.2.2 Key Routing Protocols
 
 **AODV (Ad-hoc On-demand Distance Vector):**
 
@@ -245,7 +245,7 @@ Greedy Forwarding Mode:
 3. No verification of claimed location
 4. Attacker can attract traffic with false position
 
-### 12.2.3 Routing Protocol Security Comparison
+### 3.2.3 Routing Protocol Security Comparison
 
 | Protocol | Type | Primary Vulnerability | Attack Impact |
 |----------|------|----------------------|---------------|
@@ -257,9 +257,9 @@ Greedy Forwarding Mode:
 
 ---
 
-## 12.3 Security Threats to VANETs
+## 3.3 Security Threats to VANETs
 
-### 12.3.1 Threat Classification by Layer
+### 3.3.1 Threat Classification by Layer
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -292,7 +292,7 @@ Greedy Forwarding Mode:
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 12.3.2 Detailed Attack Analysis
+### 3.3.2 Detailed Attack Analysis
 
 **Blackhole Attack:**
 
@@ -432,9 +432,9 @@ Actual Position:      Claimed Position:
 
 ---
 
-## 12.4 Secure Routing Protocols
+## 3.4 Secure Routing Protocols
 
-### 12.4.1 Security Requirements for VANET Routing
+### 3.4.1 Security Requirements for VANET Routing
 
 | Requirement | Description | Implementation Challenge |
 |-------------|-------------|-------------------------|
@@ -445,7 +445,7 @@ Actual Position:      Claimed Position:
 | **Confidentiality** | Protect sensitive data | Key distribution |
 | **Privacy** | Protect location/identity | Anonymity vs. accountability |
 
-### 12.4.2 SAODV (Secure AODV)
+### 3.4.2 SAODV (Secure AODV)
 
 **Overview:**
 SAODV adds digital signatures and hash chains to AODV to prevent routing message forgery.
@@ -497,7 +497,7 @@ Recipient can verify: h(received_hash) == previous_hash
 - Key distribution challenges
 - Doesn't address insider threats
 
-### 12.4.3 ARAN (Authenticated Routing for Ad-hoc Networks)
+### 3.4.3 ARAN (Authenticated Routing for Ad-hoc Networks)
 
 **Overview:**
 ARAN uses certificates and end-to-end authentication for all routing messages.
@@ -546,7 +546,7 @@ ARAN uses certificates and end-to-end authentication for all routing messages.
 - Prevents impersonation
 - Detects message modification
 
-### 12.4.4 SEAD (Secure Efficient Ad-hoc Distance Vector)
+### 3.4.4 SEAD (Secure Efficient Ad-hoc Distance Vector)
 
 **Overview:**
 SEAD secures DSDV using hash chains for efficiency.
@@ -574,7 +574,7 @@ Verifier computes H^k(hⁿ⁻ᵏ) and checks if equals hⁿ
 - Verification: ~10000x faster than signature verification
 - Suitable for resource-constrained VANETs
 
-### 12.4.5 Position-Based Secure Routing
+### 3.4.5 Position-Based Secure Routing
 
 **PLV (Position-Linked Verification):**
 
@@ -598,9 +598,9 @@ Position Verification Process:
 
 ---
 
-## 12.5 Defense Mechanisms
+## 3.5 Defense Mechanisms
 
-### 12.5.1 Cryptographic Solutions
+### 3.5.1 Cryptographic Solutions
 
 **Digital Signatures:**
 
@@ -620,7 +620,7 @@ Position Verification Process:
 - Use MACs for data forwarding
 - Balance security and performance
 
-### 12.5.2 Trust Management Systems
+### 3.5.2 Trust Management Systems
 
 **Trust-Based Routing:**
 
@@ -659,7 +659,7 @@ Select_Next_Hop(Destination D):
     return candidate with highest score
 ```
 
-### 12.5.3 Intrusion Detection for VANETs
+### 3.5.3 Intrusion Detection for VANETs
 
 **Watchdog Mechanism:**
 
@@ -704,7 +704,7 @@ IF claimed_position NOT on_road_network
 THEN flag as suspicious
 ```
 
-### 12.5.4 Wormhole Detection
+### 3.5.4 Wormhole Detection
 
 **Packet Leashes:**
 
@@ -735,7 +735,7 @@ Receiver verifies:
 - GPS can be spoofed
 - May have false positives
 
-### 12.5.5 Sybil Attack Prevention
+### 3.5.5 Sybil Attack Prevention
 
 **Resource Testing:**
 ```
@@ -764,9 +764,9 @@ Challenge-Response:
 
 ---
 
-## 12.6 Privacy in VANETs
+## 3.6 Privacy in VANETs
 
-### 12.6.1 The Privacy Challenge
+### 3.6.1 The Privacy Challenge
 
 **What's at Risk:**
 - Real-time location tracking
@@ -784,7 +784,7 @@ Challenge-Response:
 | **Unobservability** | Cannot detect presence |
 | **Pseudonymity** | Use temporary identifiers |
 
-### 12.6.2 Pseudonym Schemes
+### 3.6.2 Pseudonym Schemes
 
 **Basic Pseudonym Rotation:**
 
@@ -828,7 +828,7 @@ Vehicle C ───►│  ●  ●  ●  ●    │───► Vehicle ?
               └─────────────────┘
 ```
 
-### 12.6.3 Group Signatures for VANETs
+### 3.6.3 Group Signatures for VANETs
 
 **Concept:**
 - Vehicle signs as "member of group" not as individual
@@ -852,9 +852,9 @@ Vehicle C ───►│  ●  ●  ●  ●    │───► Vehicle ?
 
 ---
 
-## 12.7 Implementation Considerations
+## 3.7 Implementation Considerations
 
-### 12.7.1 Performance Requirements
+### 3.7.1 Performance Requirements
 
 **Latency Budget:**
 
@@ -874,7 +874,7 @@ Vehicle C ───►│  ●  ●  ●  ●    │───► Vehicle ?
 | Dense traffic | 1000+ | High |
 | Emergency | 2000+ | Critical |
 
-### 12.7.2 Hardware Security
+### 3.7.2 Hardware Security
 
 **Recommended Security Hardware:**
 
@@ -894,7 +894,7 @@ Vehicle C ───►│  ●  ●  ●  ●    │───► Vehicle ?
    - Authenticated signals (future)
    - INS integration
 
-### 12.7.3 Deployment Considerations
+### 3.7.3 Deployment Considerations
 
 **Incremental Deployment:**
 
@@ -917,7 +917,7 @@ Phase 3: Advanced security
 
 ---
 
-## 12.8 Summary
+## 3.8 Summary
 
 Vehicular Ad-Hoc Networks form the communication foundation of IoV, enabling vehicles to communicate directly without infrastructure dependency. The self-organizing, highly mobile nature of VANETs creates unique security challenges not found in traditional networks. Routing protocols designed for VANETs must balance performance with security, using techniques like digital signatures, hash chains, and trust management. Defense mechanisms including watchdog systems, intrusion detection, and position verification help identify and isolate malicious nodes. Privacy-preserving techniques such as pseudonyms and group signatures protect driver location and identity while maintaining accountability.
 
