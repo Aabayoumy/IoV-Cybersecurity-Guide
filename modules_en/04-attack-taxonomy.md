@@ -571,11 +571,8 @@ Key takeaways:
 
 ## Review Questions
 
-1. Compare and contrast blackhole and sinkhole attacks. Which is more dangerous and why?
-2. Explain why the CAN bus architecture is fundamentally insecure and what this means for IoV security.
-3. What made the 2015 Jeep Cherokee hack significant for the automotive industry?
-4. Describe three methods an attacker could use to reach a vehicle's CAN bus remotely.
-5. Why is GPS spoofing particularly dangerous in IoV contexts?
+1. **Q:** Why is attack taxonomy important for defending IoV systems?
+   **A:** Attack taxonomy helps security teams organize threats into clear categories such as network, identity, physical, and data attacks. This structure makes it easier to understand attacker goals, likely entry points, and potential impact on safety and operations. In IoV, threats come from many directions, including wireless channels, onboard systems, backend services, and supply chains, so a structured view is necessary for planning controls. Taxonomy also improves communication between engineering, security, and regulatory teams by providing a shared language for risk assessment and mitigation priorities.
 
 ---
 

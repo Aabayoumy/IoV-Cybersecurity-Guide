@@ -935,13 +935,8 @@ Vehicular Ad-Hoc Networks form the communication foundation of IoV, enabling veh
 
 ## Review Questions
 
-1. Explain why traditional routing protocols fail to provide security in VANETs.
-2. Compare and contrast blackhole and grayhole attacks. Which is more dangerous and why?
-3. Describe how SAODV uses hash chains to protect hop count information.
-4. What are the challenges of implementing position verification in VANETs?
-5. Explain the trade-off between privacy (pseudonyms) and security (accountability) in VANETs.
-6. How does a wormhole attack affect geographic routing protocols like GPSR?
-7. Design a trust management system for a VANET and explain your trust metric choices.
+1. **Q:** Why is secure routing in VANETs more challenging than in traditional networks?
+   **A:** VANET routing is difficult because the network changes constantly as vehicles move, so routes are short-lived and trust decisions must be made quickly. Traditional routing protocols often assume relatively stable topologies and cooperative nodes, but VANETs can include malicious or compromised participants that advertise fake routes, falsify position data, or drop forwarded packets. Security mechanisms like signatures and route validation are needed, but they add processing and communication overhead. The core challenge is balancing strong protection with strict timing requirements for safety applications where delays can reduce effectiveness.
 
 ---
 

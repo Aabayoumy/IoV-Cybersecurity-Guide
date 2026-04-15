@@ -767,11 +767,8 @@ Key takeaways:
 
 ## Review Questions
 
-1. Why is authentication alone insufficient to secure IoV systems?
-2. Compare and contrast signature-based and anomaly-based detection for vehicular environments.
-3. What makes specification-based detection particularly well-suited for IoV?
-4. How can sensor fusion improve misbehavior detection accuracy?
-5. Describe three challenges specific to deploying IDS in vehicular environments.
+1. **Q:** Why are IDS and misbehavior detection necessary even when authentication and cryptography are already deployed?
+   **A:** Authentication and cryptography verify message origin and integrity, but they do not guarantee that the sender is behaving honestly or safely. A compromised vehicle can still send harmful messages with valid credentials, and insider misuse can bypass basic trust assumptions. IDS and misbehavior detection add behavioral checks, plausibility validation, and cross-sensor consistency analysis to detect this type of threat. They also support faster operational response by flagging suspicious nodes and enabling local or network-wide mitigation. In IoV, this second defense layer is essential because safety depends on both secure identities and trustworthy behavior.
 
 ---
 

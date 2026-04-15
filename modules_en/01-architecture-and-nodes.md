@@ -596,15 +596,10 @@ Each architectural component introduces specific security concerns:
 
 ---
 
-## Discussion Questions
+## Review Questions
 
-1. What are the trade-offs between centralized (cloud-heavy) and distributed (edge-heavy) IoV architectures from a security perspective?
-
-2. How should security responsibilities be divided between OEMs, infrastructure operators, and government agencies?
-
-3. What happens to V2X safety applications if the cellular network fails? How should systems degrade gracefully?
-
-4. As vehicles become more autonomous, should OBU security requirements become legally mandated like seatbelts?
+1. **Q:** How do OBU, RSU, and backend systems work together in IoV, and why is this important for security?
+   **A:** The OBU in each vehicle handles local sensing, V2X communication, and security operations such as signing and verifying messages. RSUs act as trusted roadside communication points that distribute local traffic and safety information while helping connect vehicles to wider services. Backend systems manage large-scale tasks such as certificate issuance, threat monitoring, traffic coordination, and software updates. These three layers must work together smoothly because a weakness in any one layer can affect the others. For example, if backend trust management fails, OBUs may accept unsafe messages; if RSUs are compromised, false local information can spread quickly. Understanding this relationship helps teams design layered defenses and avoid single points of failure.
 
 ---
 

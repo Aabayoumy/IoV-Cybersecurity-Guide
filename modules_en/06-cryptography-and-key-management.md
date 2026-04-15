@@ -668,11 +668,8 @@ Key takeaways:
 
 ## Review Questions
 
-1. Why is RSA impractical for V2X applications, and how does ECC address this limitation?
-2. Describe the role of Linkage Authorities in the SCMS architecture and explain how they enable privacy-preserving revocation.
-3. What are implicit certificates and why are they beneficial for V2X communication?
-4. Explain the threat that quantum computing poses to current V2X cryptography and describe potential mitigations.
-5. What is cryptographic agility and why is it important for IoV systems?
+1. **Q:** Why are cryptography and key management central to IoV security, and what role does SCMS play?
+   **A:** Cryptography protects message authenticity, integrity, and confidentiality, which are essential for making safe driving decisions based on shared data. Key management is equally important because even strong algorithms fail if keys are poorly issued, stored, rotated, or revoked. In large IoV deployments, millions of vehicles need credentials that support trust while still preserving privacy. SCMS provides the operational framework to issue certificates, support pseudonymous operation, manage revocation, and maintain accountability. In practice, secure IoV depends not only on choosing good algorithms such as ECC, but also on running a robust, scalable, and well-governed credential ecosystem.
 
 ---
 

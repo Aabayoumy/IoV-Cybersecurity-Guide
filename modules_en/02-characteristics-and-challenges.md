@@ -336,11 +336,8 @@ The following modules will explore specific threats, vulnerabilities, and counte
 
 ## Review Questions
 
-1. Why does high mobility create challenges for traditional authentication protocols like TLS?
-2. How does predictable vehicle movement create both security opportunities and vulnerabilities?
-3. Calculate the maximum cryptographic processing time allowable for a collision warning system with 100ms latency requirement, assuming 50ms is consumed by transmission and sensor processing.
-4. Describe three ways that variable node density affects IoV security mechanisms.
-5. Why must IoV security protocols be designed for unreliable communication links?
+1. **Q:** Why do IoV characteristics such as high mobility, dynamic topology, and strict latency make security design difficult?
+   **A:** In IoV networks, vehicles move quickly, connections form and break rapidly, and route information can become outdated in seconds. At the same time, many safety messages must be processed with very low delay, so security checks cannot be too heavy or slow. Network density also changes by location and time, creating message floods in busy areas and sparse connectivity in others. Environmental factors such as interference, weather, and obstructions further reduce link reliability. Together, these conditions force security mechanisms to be lightweight, fast, adaptive, and resilient rather than static and resource-heavy.
 
 ---
 

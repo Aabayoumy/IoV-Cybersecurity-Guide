@@ -347,15 +347,10 @@ Conversely, insecure IoV systems pose severe risks:
 
 ---
 
-## Discussion Questions
+## Review Questions
 
-1. How does the cyber-physical nature of vehicles change the risk calculus compared to traditional IT security?
-
-2. What ethical considerations arise when balancing driver privacy against public safety?
-
-3. How might adversaries monetize attacks on IoV systems beyond ransom demands?
-
-4. What role should governments play in mandating IoV security standards?
+1. **Q:** Why is IoV cybersecurity a public-safety issue and not only an IT problem?
+   **A:** IoV systems connect digital components directly to physical vehicle behavior. When software, communication links, or backend services are attacked, the effects are not limited to data loss; they can influence steering, braking, acceleration, and traffic decisions in real time. This means cybersecurity failures can create immediate safety hazards for drivers, passengers, pedestrians, and nearby vehicles. IoV also operates at large scale, so one vulnerability can affect many vehicles at once through shared platforms or update channels. For this reason, IoV security must combine traditional IT protections with safety engineering, strict operational controls, and continuous monitoring.
 
 ---
 

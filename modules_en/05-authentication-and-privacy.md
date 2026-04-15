@@ -611,11 +611,8 @@ Privacy in IoV systems is a fundamental challenge requiring careful balance betw
 
 ## Review Questions
 
-1. Explain the fundamental tension between safety accountability and driver privacy in IoV systems.
-2. How did the Strava heatmap incident demonstrate privacy risks that apply to IoV?
-3. Describe how mix-zones work and identify three potential attacks against them.
-4. What does GDPR require of IoV systems operating in Europe?
-5. Compare pseudonymous certificates and group signatures as privacy-preserving technologies.
+1. **Q:** How can IoV systems provide both authentication and privacy-preservation at the same time?
+   **A:** IoV systems need authentication so vehicles can trust safety messages and reject malicious data, but they also need privacy controls to prevent continuous tracking of drivers. This is typically achieved with mechanisms such as pseudonymous certificates, controlled identity rotation, and selective disclosure methods. These tools allow a vehicle to prove it is authorized without revealing a permanent identity in every message. Strong governance is also required so that identity linkage is possible only under approved legal or safety processes. The practical goal is to support accountability when necessary while minimizing unnecessary exposure of personal movement data.
 
 ---
 
