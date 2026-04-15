@@ -352,6 +352,15 @@ Conversely, insecure IoV systems pose severe risks:
 1. **Q:** Why is IoV cybersecurity a public-safety issue and not only an IT problem?
    **A:** IoV systems connect digital components directly to physical vehicle behavior. When software, communication links, or backend services are attacked, the effects are not limited to data loss; they can influence steering, braking, acceleration, and traffic decisions in real time. This means cybersecurity failures can create immediate safety hazards for drivers, passengers, pedestrians, and nearby vehicles. IoV also operates at large scale, so one vulnerability can affect many vehicles at once through shared platforms or update channels. For this reason, IoV security must combine traditional IT protections with safety engineering, strict operational controls, and continuous monitoring.
 
+2. **Q:** What is the main benefit of V2X communication in IoV?
+   **A:** V2X enables vehicles to exchange safety-relevant information quickly with other vehicles, infrastructure, and networks. This improves awareness and can reduce accidents by supporting earlier and better driving decisions.
+
+3. **Q:** Why are real-world cyber incidents important for IoV learning?
+   **A:** They show that attacks are practical, not theoretical. Case studies help teams understand how weaknesses are exploited and what controls should be prioritized in real deployments.
+
+4. **Q:** Why should IoV security be designed from the start rather than added later?
+   **A:** Retrofitting security in vehicles is expensive and complex because systems are safety-critical and long-lived. Security-by-design reduces long-term risk and supports safer updates and operations.
+
 ---
 
 ## Next Module

@@ -770,6 +770,15 @@ Key takeaways:
 1. **Q:** Why are IDS and misbehavior detection necessary even when authentication and cryptography are already deployed?
    **A:** Authentication and cryptography verify message origin and integrity, but they do not guarantee that the sender is behaving honestly or safely. A compromised vehicle can still send harmful messages with valid credentials, and insider misuse can bypass basic trust assumptions. IDS and misbehavior detection add behavioral checks, plausibility validation, and cross-sensor consistency analysis to detect this type of threat. They also support faster operational response by flagging suspicious nodes and enabling local or network-wide mitigation. In IoV, this second defense layer is essential because safety depends on both secure identities and trustworthy behavior.
 
+2. **Q:** What is the difference between IDS and misbehavior detection?
+   **A:** IDS focuses on suspicious network or system behavior, while misbehavior detection focuses on whether vehicular messages are physically plausible and trustworthy.
+
+3. **Q:** Why is sensor fusion helpful in detection?
+   **A:** It compares claims from messages with local sensor observations. This reduces reliance on a single data source.
+
+4. **Q:** Why must IDS in IoV be optimized for real time?
+   **A:** Detection delays can reduce safety effectiveness. IoV systems require fast decisions to support immediate driving actions.
+
 ---
 
 ## Practical Exercise

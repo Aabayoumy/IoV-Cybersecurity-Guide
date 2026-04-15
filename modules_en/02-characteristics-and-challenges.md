@@ -339,6 +339,15 @@ The following modules will explore specific threats, vulnerabilities, and counte
 1. **Q:** Why do IoV characteristics such as high mobility, dynamic topology, and strict latency make security design difficult?
    **A:** In IoV networks, vehicles move quickly, connections form and break rapidly, and route information can become outdated in seconds. At the same time, many safety messages must be processed with very low delay, so security checks cannot be too heavy or slow. Network density also changes by location and time, creating message floods in busy areas and sparse connectivity in others. Environmental factors such as interference, weather, and obstructions further reduce link reliability. Together, these conditions force security mechanisms to be lightweight, fast, adaptive, and resilient rather than static and resource-heavy.
 
+2. **Q:** Why can traditional IT security controls fail in IoV contexts?
+   **A:** Many traditional controls assume stable networks and longer processing windows. IoV environments change too quickly for heavy, multi-step security procedures.
+
+3. **Q:** How does message volume affect security operations in dense traffic?
+   **A:** High message rates increase verification and filtering load. Without optimization, this can delay critical decisions and degrade safety performance.
+
+4. **Q:** Why is resilience important for IoV communication security?
+   **A:** IoV links can be unstable due to mobility and environment. Security mechanisms must continue working reliably even when connectivity quality changes.
+
 ---
 
 ## Hands-On Exercise

@@ -601,6 +601,15 @@ Each architectural component introduces specific security concerns:
 1. **Q:** How do OBU, RSU, and backend systems work together in IoV, and why is this important for security?
    **A:** The OBU in each vehicle handles local sensing, V2X communication, and security operations such as signing and verifying messages. RSUs act as trusted roadside communication points that distribute local traffic and safety information while helping connect vehicles to wider services. Backend systems manage large-scale tasks such as certificate issuance, threat monitoring, traffic coordination, and software updates. These three layers must work together smoothly because a weakness in any one layer can affect the others. For example, if backend trust management fails, OBUs may accept unsafe messages; if RSUs are compromised, false local information can spread quickly. Understanding this relationship helps teams design layered defenses and avoid single points of failure.
 
+2. **Q:** What happens if an RSU is compromised?
+   **A:** A compromised RSU can broadcast misleading local information and affect many nearby vehicles at once. This can reduce trust and create unsafe traffic behavior in that area.
+
+3. **Q:** Why is edge computing important in vehicular systems?
+   **A:** Edge computing supports very fast local decisions for safety-critical functions. It reduces dependence on distant cloud services when milliseconds matter.
+
+4. **Q:** Why do IoV systems need interoperability across vendors?
+   **A:** Vehicles and infrastructure from different manufacturers must communicate securely. Common standards and compatible security controls are required for safe large-scale deployment.
+
 ---
 
 ## Next Module

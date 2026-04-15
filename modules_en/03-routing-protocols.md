@@ -938,6 +938,15 @@ Vehicular Ad-Hoc Networks form the communication foundation of IoV, enabling veh
 1. **Q:** Why is secure routing in VANETs more challenging than in traditional networks?
    **A:** VANET routing is difficult because the network changes constantly as vehicles move, so routes are short-lived and trust decisions must be made quickly. Traditional routing protocols often assume relatively stable topologies and cooperative nodes, but VANETs can include malicious or compromised participants that advertise fake routes, falsify position data, or drop forwarded packets. Security mechanisms like signatures and route validation are needed, but they add processing and communication overhead. The core challenge is balancing strong protection with strict timing requirements for safety applications where delays can reduce effectiveness.
 
+2. **Q:** What is a blackhole attack in routing?
+   **A:** In a blackhole attack, a malicious node attracts traffic by claiming a good route and then drops packets. This disrupts message delivery, especially for safety data.
+
+3. **Q:** Why is position trust important for geographic routing protocols?
+   **A:** Geographic routing depends on location claims to choose next hops. If location claims are false, traffic can be redirected or intercepted.
+
+4. **Q:** Why do secure routing protocols need to balance security and speed?
+   **A:** Strong checks improve trust but consume time and resources. VANET safety applications still require low-latency communication.
+
 ---
 
 ## Practical Exercise

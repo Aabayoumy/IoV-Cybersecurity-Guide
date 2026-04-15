@@ -574,6 +574,15 @@ Key takeaways:
 1. **Q:** Why is attack taxonomy important for defending IoV systems?
    **A:** Attack taxonomy helps security teams organize threats into clear categories such as network, identity, physical, and data attacks. This structure makes it easier to understand attacker goals, likely entry points, and potential impact on safety and operations. In IoV, threats come from many directions, including wireless channels, onboard systems, backend services, and supply chains, so a structured view is necessary for planning controls. Taxonomy also improves communication between engineering, security, and regulatory teams by providing a shared language for risk assessment and mitigation priorities.
 
+2. **Q:** What does a Sybil attack try to do in IoV?
+   **A:** It creates multiple fake identities to influence decisions or overwhelm systems. This can distort traffic or trust-based functions.
+
+3. **Q:** Why is CAN bus security still a concern in modern vehicles?
+   **A:** Many vehicle architectures still depend on CAN for critical communication. Legacy design limitations can be exploited if gateways and controls are weak.
+
+4. **Q:** Why is early attack detection important in vehicular environments?
+   **A:** Fast detection can limit operational and safety impact. Delayed response may allow attacks to spread or influence real driving behavior.
+
 ---
 
 ## Practical Exercise

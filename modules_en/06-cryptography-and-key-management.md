@@ -671,6 +671,15 @@ Key takeaways:
 1. **Q:** Why are cryptography and key management central to IoV security, and what role does SCMS play?
    **A:** Cryptography protects message authenticity, integrity, and confidentiality, which are essential for making safe driving decisions based on shared data. Key management is equally important because even strong algorithms fail if keys are poorly issued, stored, rotated, or revoked. In large IoV deployments, millions of vehicles need credentials that support trust while still preserving privacy. SCMS provides the operational framework to issue certificates, support pseudonymous operation, manage revocation, and maintain accountability. In practice, secure IoV depends not only on choosing good algorithms such as ECC, but also on running a robust, scalable, and well-governed credential ecosystem.
 
+2. **Q:** Why is ECC widely used in V2X systems?
+   **A:** ECC provides strong security with smaller keys and lower overhead than many alternatives. This helps meet real-time processing constraints in vehicles.
+
+3. **Q:** Why is key revocation important in IoV?
+   **A:** Revocation removes trust from compromised or misbehaving entities. Without it, invalid participants may continue sending accepted messages.
+
+4. **Q:** Why does implementation quality matter in cryptography?
+   **A:** Even strong algorithms can fail if implemented poorly. Secure coding, correct key handling, and safe random generation are essential.
+
 ---
 
 ## Practical Exercise

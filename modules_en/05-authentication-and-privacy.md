@@ -614,6 +614,15 @@ Privacy in IoV systems is a fundamental challenge requiring careful balance betw
 1. **Q:** How can IoV systems provide both authentication and privacy-preservation at the same time?
    **A:** IoV systems need authentication so vehicles can trust safety messages and reject malicious data, but they also need privacy controls to prevent continuous tracking of drivers. This is typically achieved with mechanisms such as pseudonymous certificates, controlled identity rotation, and selective disclosure methods. These tools allow a vehicle to prove it is authorized without revealing a permanent identity in every message. Strong governance is also required so that identity linkage is possible only under approved legal or safety processes. The practical goal is to support accountability when necessary while minimizing unnecessary exposure of personal movement data.
 
+2. **Q:** What is the role of pseudonyms in IoV privacy?
+   **A:** Pseudonyms reduce direct identity exposure in routine communication. They make long-term tracking harder when managed correctly.
+
+3. **Q:** Why are mix-zones useful for privacy protection?
+   **A:** Mix-zones allow many vehicles to change identifiers in the same area, making message linking less reliable for observers.
+
+4. **Q:** Why is data minimization important in IoV services?
+   **A:** Collecting only necessary data lowers privacy risk and improves compliance with data protection regulations.
+
 ---
 
 ## Practical Exercise
